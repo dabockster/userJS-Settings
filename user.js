@@ -443,3 +443,286 @@ user_pref("network.http.referer.spoofSource", false); // [DEFAULT: false]
  * [3] https://blog.mozilla.org/security/2018/01/31/preventing-data-leaks-by-stripping-path-information-in-http-referrers/ ***/
 user_pref("network.http.referer.defaultPolicy", 3); // [DEFAULT: 3]
 user_pref("network.http.referer.defaultPolicy.pbmode", 2); // [DEFAULT: 2]
+
+/* 1610: ALL: enable the DNT (Do Not Track) HTTP header
+ * [NOTE] DNT is enforced with TP (see 0420) regardless of this pref
+ * [SETTING] Privacy & Security>Content Blocking>Send websites a "Do Not Track"... ***/
+user_pref("privacy.donottrackheader.enabled", true);
+
+/* 1701: enable Container Tabs setting in preferences (see 1702) [FF50+]
+ * [1] https://bugzilla.mozilla.org/1279029 ***/
+user_pref("privacy.userContext.ui.enabled", true);
+
+/* 1702: enable Container Tabs [FF50+]
+ * [SETTING] General>Tabs>Enable Container Tabs ***/
+user_pref("privacy.userContext.enabled", true);
+
+/* 1703: enable a private container for thumbnail loads [FF51+] ***/
+user_pref("privacy.usercontext.about_newtab_segregation.enabled", true); // [DEFAULT: true in FF61+]
+
+/* 1704: set behaviour on "+ Tab" button to display container menu [FF53+] [SETUP-CHROME]
+ * 0=no menu (default), 1=show when clicked, 2=show on long press
+ * [NOTE] The menu does not contain a non-container tab option (use Ctrl+T to open non-container tab)
+ * [1] https://bugzilla.mozilla.org/1328756 ***/
+user_pref("privacy.userContext.longPressBehavior", 2);
+
+/* 1803: disable Flash plugin (Add-ons>Plugins)
+ * 0=deactivated, 1=ask, 2=enabled
+ * ESR52.x is the last branch to *fully* support NPAPI, FF52+ stable only supports Flash
+ * [NOTE] You can still override individual sites via site permissions
+ * [1] https://www.ghacks.net/2013/07/09/how-to-make-sure-that-a-firefox-plugin-never-activates-again/ ***/
+user_pref("plugin.state.flash", 0);
+
+/* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate" [SETUP-WEB]
+ * This is the bundled codec used for video chat in WebRTC ***/
+user_pref("media.gmp-gmpopenh264.enabled", false); // [HIDDEN PREF]
+user_pref("media.gmp-gmpopenh264.autoupdate", false);
+
+/* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate" [SETUP-WEB]
+ * This is the bundled codec used for video chat in WebRTC ***/
+user_pref("media.gmp-gmpopenh264.enabled", false); // [HIDDEN PREF]
+user_pref("media.gmp-gmpopenh264.autoupdate", false);
+
+/* 2001: disable WebRTC (Web Real-Time Communication)
+ * [1] https://www.privacytools.io/#webrtc ***/
+user_pref("media.peerconnection.enabled", false);
+
+/* 2002: limit WebRTC IP leaks if using WebRTC
+ * [TEST] https://browserleaks.com/webrtc
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1189041,1297416
+ * [2] https://wiki.mozilla.org/Media/WebRTC/Privacy ***/
+user_pref("media.peerconnection.ice.default_address_only", true);
+user_pref("media.peerconnection.ice.no_host", true); // [FF51+]
+
+/* 2022: disable screensharing ***/
+user_pref("media.getusermedia.screensharing.enabled", false);
+user_pref("media.getusermedia.browser.enabled", false);
+user_pref("media.getusermedia.audiocapture.enabled", false);
+
+/* 2026: disable canvas capture stream [FF41+]
+ * [1] https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/captureStream ***/
+user_pref("canvas.capturestream.enabled", false);
+
+/* 2030: disable auto-play of HTML5 media [FF63+]
+ * 0=Allowed (default), 1=Blocked, 2=Prompt
+ * [SETUP-WEB] This may break video playback on various sites ***/
+user_pref("media.autoplay.default", 1);
+
+/* 2031: disable audio auto-play in non-active tabs [FF51+]
+ * [1] https://www.ghacks.net/2016/11/14/firefox-51-blocks-automatic-audio-playback-in-non-active-tabs/ ***/
+user_pref("media.block-autoplay-until-in-foreground", true);
+
+/* 2201: prevent websites from disabling new window features
+ * [1] http://kb.mozillazine.org/Prevent_websites_from_disabling_new_window_features ***/
+user_pref("dom.disable_window_open_feature.close", true);
+user_pref("dom.disable_window_open_feature.location", true); // [DEFAULT: true]
+user_pref("dom.disable_window_open_feature.menubar", true);
+user_pref("dom.disable_window_open_feature.minimizable", true);
+user_pref("dom.disable_window_open_feature.personalbar", true); // bookmarks toolbar
+user_pref("dom.disable_window_open_feature.resizable", true); // [DEFAULT: true]
+user_pref("dom.disable_window_open_feature.status", true); // [DEFAULT: true]
+user_pref("dom.disable_window_open_feature.titlebar", true);
+user_pref("dom.disable_window_open_feature.toolbar", true);
+
+/* 2202: prevent scripts from moving and resizing open windows ***/
+user_pref("dom.disable_window_move_resize", true);
+
+/* 2203: open links targeting new windows in a new tab instead
+ * This stops malicious window sizes and some screen resolution leaks.
+ * You can still right-click a link and open in a new window.
+ * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
+ * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
+user_pref("browser.link.open_newwindow", 3);
+user_pref("browser.link.open_newwindow.restriction", 0);
+
+/* 2210: block popup windows
+ * [SETTING] Privacy & Security>Permissions>Block pop-up windows ***/
+user_pref("dom.disable_open_during_load", true);
+
+/* 2211: set max popups from a single non-click event - default is 20! ***/
+user_pref("dom.popup_maximum", 3);
+
+/* 2212: limit events that can cause a popup
+ * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend"
+ * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
+user_pref("dom.popup_allowed_events", "click dblclick");
+
+/* 2403: disable clipboard commands (cut/copy) from "non-privileged" content [FF41+]
+ * this disables document.execCommand("cut"/"copy") to protect your clipboard
+ * [1] https://bugzilla.mozilla.org/1170911 ***/
+user_pref("dom.allow_cut_copy", false); // [HIDDEN PREF]
+
+/* 2404: disable "Confirm you want to leave" dialog on page close
+ * Does not prevent JS leaks of the page close event.
+ * [1] https://developer.mozilla.org/docs/Web/Events/beforeunload
+ * [2] https://support.mozilla.org/questions/1043508 ***/
+user_pref("dom.disable_beforeunload", true);
+
+/* 2414: disable shaking the screen ***/
+user_pref("dom.vibrator.enabled", false);
+
+/* 2426: disable Intersection Observer API [FF53+]
+ * Almost a year to complete, three versions late to stable (as default false),
+ * number #1 cause of crashes in nightly numerous times, and is (primarily) an
+ * ad network API for "ad viewability checks" down to a pixel level
+ * [1] https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API
+ * [2] https://w3c.github.io/IntersectionObserver/
+ * [3] https://bugzilla.mozilla.org/1243846 ***/
+user_pref("dom.IntersectionObserver.enabled", false);
+
+/* 2427: disable Shared Memory (Spectre mitigation)
+ * [1] https://github.com/tc39/ecmascript_sharedmem/blob/master/TUTORIAL.md
+ * [2] https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/ ***/
+user_pref("javascript.options.shared_memory", false);
+
+/* 2505: disable media device enumeration [FF29+]
+ * [NOTE] media.peerconnection.enabled should also be set to false (see 2001)
+ * [1] https://wiki.mozilla.org/Media/getUserMedia
+ * [2] https://developer.mozilla.org/docs/Web/API/MediaDevices/enumerateDevices ***/
+user_pref("media.navigator.enabled", false);
+
+/* 2602: disable sending additional analytics to web servers
+ * [1] https://developer.mozilla.org/docs/Web/API/Navigator/sendBeacon ***/
+user_pref("beacon.enabled", false);
+
+/* 2603: remove temp files opened with an external application
+ * [1] https://bugzilla.mozilla.org/302433 ***/
+user_pref("browser.helperApps.deleteTempFileOnExit", true);
+
+/* 2604: disable page thumbnail collection
+ * look in profile/thumbnails directory - you may want to clean that out ***/
+user_pref("browser.pagethumbnails.capturing_disabled", true); // [HIDDEN PREF]
+
+/* 2605: block web content in file processes [FF55+]
+ * [SETUP-WEB] You may want to disable this for corporate or developer environments
+ * [1] https://bugzilla.mozilla.org/1343184 ***/
+user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
+
+/* 2606: disable UITour backend so there is no chance that a remote page can use it ***/
+user_pref("browser.uitour.enabled", false);
+user_pref("browser.uitour.url", "");
+
+/* 2608: disable WebIDE to prevent remote debugging and ADB extension download
+ * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
+user_pref("devtools.debugger.remote-enabled", false);
+user_pref("devtools.webide.enabled", false);
+user_pref("devtools.webide.autoinstallADBExtension", false); // [FF64+]
+
+/* 2614: limit HTTP redirects (this does not control redirects with HTML meta tags or JS)
+ * [NOTE] A low setting of 5 or under will probably break some sites (e.g. gmail logins)
+ * To control HTML Meta tag and JS redirects, use an extension. Default is 20 ***/
+user_pref("network.http.redirection-limit", 10);
+
+/* 2616: remove special permissions for certain mozilla domains [FF35+]
+ * [1] resource://app/defaults/permissions ***/
+user_pref("permissions.manager.defaultsUrl", "");
+
+/* 2617: remove webchannel whitelist ***/
+user_pref("webchannel.allowObject.urlWhitelist", "");
+
+/* 2619: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
+ * Firefox has *some* protections, but it is better to be safe than sorry. The downside: it will also
+ * display legitimate IDN's punycoded, which might be undesirable for users of non-latin alphabets
+ * [TEST] https://www.xn--80ak6aa92e.com/ (www.apple.com)
+ * [1] https://wiki.mozilla.org/IDN_Display_Algorithm
+ * [2] https://en.wikipedia.org/wiki/IDN_homograph_attack
+ * [3] CVE-2017-5383: https://www.mozilla.org/security/advisories/mfsa2017-02/
+ * [4] https://www.xudongz.com/blog/2017/idn-phishing/ ***/
+user_pref("network.IDN_show_punycode", true);
+
+/* 2620: enable Firefox's built-in PDF reader
+ * This setting controls if the option "Display in Firefox" in the above setting is available
+ *   and by effect controls whether PDFs are handled in-browser or externally ("Ask" or "Open With")
+ * PROS: pdfjs is lightweight, open source, and as secure/vetted as any pdf reader out there (more than most)
+ *   Exploits are rare (1 serious case in 4 yrs), treated seriously and patched quickly.
+ *   It doesn't break "state separation" of browser content (by not sharing with OS, independent apps).
+ *   It maintains disk avoidance and application data isolation. It's convenient. You can still save to disk.
+ * CONS: You may prefer a different pdf reader for security reasons
+ * CAVEAT: JS can still force a pdf to open in-browser by bundling its own code (rare)
+ * [SETTING] General>Applications>Portable Document Format (PDF) ***/
+user_pref("pdfjs.disabled", false);
+
+/* 2651: enforce user interaction for security by always asking the user where to download
+ * [SETTING] General>Downloads>Always ask you where to save files ***/
+user_pref("browser.download.useDownloadDir", false);
+
+/* 2652: disable adding downloads to the system's "recent documents" list ***/
+user_pref("browser.download.manager.addToRecentDocs", false);
+
+/* 2653: disable hiding mime types (Options>General>Applications) not associated with a plugin ***/
+user_pref("browser.download.hide_plugins_without_extensions", false);
+
+/* 2663: enable warning when websites try to install add-ons
+ * [SETTING] Privacy & Security>Permissions>Warn you when websites try to install add-ons ***/
+user_pref("xpinstall.whitelist.required", true); // [DEFAULT: true]
+
+/* 2682: enable CSP 1.1 experimental hash-source directive [FF29+]
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=855326,883975 ***/
+user_pref("security.csp.experimentalEnabled", true);
+
+/* 2684: enforce a security delay on some confirmation dialogs such as install, open/save
+ * [1] http://kb.mozillazine.org/Disable_extension_install_delay_-_Firefox
+ * [2] https://www.squarefree.com/2004/07/01/race-conditions-in-security-dialogs/ ***/
+user_pref("security.dialog_enable_delay", 700);
+
+/* 2701: disable 3rd-party cookies and site-data
+ * You can set exceptions under site permissions or use an extension
+ * 0=Accept cookies and site data, 1=Block third-party cookies, 2=Block all cookies,
+ * 3=Block cookies from unvisited sites, 4=Block third-party trackers (FF63+)
+ * [NOTE] value 4 is tied to the Tracking Protection lists so make sure you have 0424 + 0425 on default values!
+ * [NOTE] Blocking 3rd party controls 3rd party access to localStorage, IndexedDB, Cache API and Service Worker Cache.
+ * Blocking 1st party controls access to localStorage and IndexedDB (note: Service Workers can still use IndexedDB).
+ * [SETTING] Privacy & Security>Cookies and Site Data>Type blocked
+ * [1] https://www.fxsitecompat.com/en-CA/docs/2015/web-storage-indexeddb-cache-api-now-obey-third-party-cookies-preference/ ***/
+user_pref("network.cookie.cookieBehavior", 1);
+
+/* 2702: set third-party cookies (i.e ALL) (if enabled, see 2701) to session-only
+   and (FF58+) set third-party non-secure (i.e HTTP) cookies to session-only
+   [NOTE] .sessionOnly overrides .nonsecureSessionOnly except when .sessionOnly=false and
+   .nonsecureSessionOnly=true. This allows you to keep HTTPS cookies, but session-only HTTP ones
+ * [1] https://feeding.cloud.geek.nz/posts/tweaking-cookies-for-privacy-in-firefox/
+ * [2] http://kb.mozillazine.org/Network.cookie.thirdparty.sessionOnly ***/
+user_pref("network.cookie.thirdparty.sessionOnly", true);
+user_pref("network.cookie.thirdparty.nonsecureSessionOnly", true); // [FF58+]
+
+/* 2705: disable HTTP sites setting cookies with the "secure" directive [FF52+]
+ * [1] https://developer.mozilla.org/Firefox/Releases/52#HTTP ***/
+user_pref("network.cookie.leave-secure-alone", true); // [DEFAULT: true]
+
+/* 2720: enforce IndexedDB (IDB) as enabled
+ * IDB is required for extensions and Firefox internals (even before FF63 in [1])
+ * To control *website* IDB data, control allowing cookies and service workers, or use
+ * Temporary Containers. To mitigate *website* IDB, FPI helps (4001), and/or sanitize
+ * on close (Offline Website Data, see 2800) or on-demand (Ctrl-Shift-Del), or automatically
+ * via an extension. Note that IDB currently cannot be sanitized by host.
+ * [1] https://blog.mozilla.org/addons/2018/08/03/new-backend-for-storage-local-api/ ***/
+user_pref("dom.indexedDB.enabled", true); // [DEFAULT: true]
+
+/* 2730: disable offline cache ***/
+user_pref("browser.cache.offline.enable", false);
+
+/* 2730b: disable offline cache on insecure sites [FF60+]
+ * [1] https://blog.mozilla.org/security/2018/02/12/restricting-appcache-secure-contexts/ ***/
+user_pref("browser.cache.offline.insecure.enable", false); // [DEFAULT: false in FF62+]
+
+/* 2731: enforce websites to ask to store data for offline use
+ * [1] https://support.mozilla.org/questions/1098540
+ * [2] https://bugzilla.mozilla.org/959985 ***/
+user_pref("offline-apps.allow_by_default", false);
+
+/* 2740: disable service workers cache and cache storage
+ * [1] https://w3c.github.io/ServiceWorker/#privacy ***/
+user_pref("dom.caches.enabled", false);
+
+/* 2806: reset default 'Time range to clear' for 'Clear Recent History' (see 2804)
+ * Firefox remembers your last choice. This will reset the value when you start Firefox.
+ * 0=everything, 1=last hour, 2=last two hours, 3=last four hours,
+ * 4=today, 5=last five minutes, 6=last twenty-four hours
+ * [NOTE] The values 5 + 6 are not listed in the dropdown, which will display a
+ * blank value if they are used, but they do work as advertised ***/
+user_pref("privacy.sanitize.timeSpan", 0);
+
+/* 4504: disable showing about:blank as soon as possible during startup [FF60+]
+ * When default true (FF62+) this no longer masks the RFP resizing activity
+ * [1] https://bugzilla.mozilla.org/1448423 ***/
+user_pref("browser.startup.blankWindow", false);
